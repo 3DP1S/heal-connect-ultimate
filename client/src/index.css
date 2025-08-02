@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(244, 82%, 64%);
+  --primary-foreground: hsl(210, 100%, 99%);
+  --secondary: hsl(249, 74%, 68%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+  
+  /* Healing-specific colors */
+  --healing: hsl(158, 85%, 39%);
+  --nature: hsl(158, 91%, 20%);
+  --lavender: hsl(258, 84%, 58%);
+  --cyan: hsl(188, 94%, 43%);
+  --orange: hsl(25, 95%, 53%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(244, 82%, 64%);
+  --primary-foreground: hsl(210, 100%, 99%);
+  --secondary: hsl(249, 74%, 68%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@layer components {
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .nature-texture {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="%23059669" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="%2310B981" opacity="0.1"/><circle cx="40" cy="80" r="1" fill="%2306B6D4" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  }
+
+  .liquid-button {
+    @apply relative overflow-hidden transition-all duration-300 ease-in-out;
+  }
+
+  .liquid-button:hover {
+    @apply transform -translate-y-0.5 shadow-lg;
+  }
+
+  .liquid-button::before {
+    @apply absolute top-0 w-full h-full opacity-0 transition-opacity duration-500;
+    content: '';
+    left: -100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  }
+
+  .liquid-button:hover::before {
+    @apply opacity-100;
+    left: 100%;
+  }
+
+  .sidebar-item {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .sidebar-item:hover {
+    @apply transform translate-x-2;
+  }
+
+  .widget-card {
+    @apply transition-all duration-300 ease-in-out;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  }
+
+  .widget-card:hover {
+    @apply transform -translate-y-1 scale-105 shadow-xl;
+  }
+}
+
+@layer utilities {
+  .animate-liquid {
+    animation: liquid 3s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-slide-in {
+    animation: slide-in 0.5s ease-out;
+  }
+}
+
+@keyframes liquid {
+  0%, 100% { 
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; 
+  }
+  50% { 
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; 
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-20px); 
+  }
+}
+
+@keyframes glow {
+  from { 
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); 
+  }
+  to { 
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.6), 0 0 40px rgba(99, 102, 241, 0.4); 
+  }
+}
+
+@keyframes slide-in {
+  from { 
+    transform: translateX(-100%); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-liquid,
+  .animate-float,
+  .animate-glow,
+  .animate-pulse {
+    animation: none;
+  }
+  
+  .liquid-button,
+  .sidebar-item,
+  .widget-card {
+    transition: none;
+  }
+}
+
+/* Accessibility enhancements */
+.keyboard-navigation *:focus {
+  outline: 2px solid hsl(244, 82%, 64%);
+  outline-offset: 2px;
+}
