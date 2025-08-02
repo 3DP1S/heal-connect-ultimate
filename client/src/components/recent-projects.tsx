@@ -39,10 +39,15 @@ const projects = [
 export default function RecentProjects() {
   return (
     <motion.div 
-      className="glass-morphism rounded-2xl p-6"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.4 }}
+      className="glass-morphism-enhanced rounded-2xl p-6 animate-float-slow"
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.8, delay: 0.4, type: "spring", stiffness: 100 }}
+      whileHover={{
+        scale: 1.02,
+        y: -5,
+        transition: { duration: 0.3 }
+      }}
     >
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-semibold">Recent Projects</h3>
@@ -55,21 +60,44 @@ export default function RecentProjects() {
         {projects.map((project, index) => (
           <motion.div
             key={project.id}
-            className="widget-card p-4 rounded-xl border border-gray-600 hover:border-blue-500 transition-all duration-300"
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.5 + index * 0.1, duration: 0.5 }}
+            className="widget-card glass-morphism p-4 rounded-xl border border-gray-600 hover:border-blue-500 transition-all duration-500 animate-shimmer"
+            initial={{ x: -80, opacity: 0, rotateY: -30 }}
+            animate={{ x: 0, opacity: 1, rotateY: 0 }}
+            transition={{ delay: 0.5 + index * 0.15, duration: 0.7, type: "spring", stiffness: 150 }}
             whileHover={{ 
-              scale: 1.02,
+              scale: 1.05,
+              x: 8,
+              rotateY: 3,
               borderColor: "rgb(59, 130, 246)",
-              transition: { duration: 0.2 }
+              boxShadow: "0 10px 40px rgba(59, 130, 246, 0.4)",
+              transition: { duration: 0.3 }
+            }}
+            whileTap={{
+              scale: 0.98,
+              transition: { duration: 0.1 }
             }}
           >
             <div className="flex items-center space-x-4">
               <motion.div 
-                className={`w-16 h-16 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center`}
-                whileHover={{ rotate: 5 }}
-                transition={{ duration: 0.2 }}
+                className={`w-16 h-16 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center animate-liquid-morph`}
+                whileHover={{ 
+                  rotate: 15,
+                  scale: 1.1,
+                  transition: { duration: 0.3, type: "spring" }
+                }}
+                animate={{
+                  boxShadow: [
+                    "0 5px 15px rgba(99, 102, 241, 0.3)",
+                    "0 8px 25px rgba(99, 102, 241, 0.5)",
+                    "0 5px 15px rgba(99, 102, 241, 0.3)"
+                  ]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: index * 0.5
+                }}
               >
                 <project.icon className="text-white text-xl" />
               </motion.div>

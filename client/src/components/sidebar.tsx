@@ -62,14 +62,21 @@ export default function Sidebar() {
       <div className="p-6 border-b border-gray-700">
         <div className="flex items-center space-x-3">
           <motion.div 
-            className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center"
+            className="w-12 h-12 bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 rounded-xl flex items-center justify-center animate-rainbow-border"
             animate={{
-              borderRadius: ["60% 40% 30% 70%", "30% 60% 70% 40%", "60% 40% 30% 70%"]
+              borderRadius: ["60% 40% 30% 70%", "30% 60% 70% 40%", "40% 70% 30% 60%", "70% 30% 60% 40%", "60% 40% 30% 70%"],
+              scale: [1, 1.1, 1.05, 1.15, 1],
+              rotate: [0, 5, -3, 8, 0]
             }}
             transition={{
-              duration: 3,
+              duration: 4,
               repeat: Infinity,
               ease: "easeInOut"
+            }}
+            whileHover={{
+              scale: 1.2,
+              rotate: 360,
+              transition: { duration: 0.8 }
             }}
           >
             <Heart className="text-white text-xl" />
@@ -88,21 +95,26 @@ export default function Sidebar() {
         {sidebarItems.map((item, index) => (
           <motion.div
             key={item.id}
-            className={`sidebar-item liquid-button p-4 rounded-xl cursor-pointer transition-all duration-300 ${
+            className={`sidebar-item liquid-button p-4 rounded-xl cursor-pointer transition-all duration-500 ${
               activeItem === item.id 
-                ? `bg-gradient-to-r ${item.color} text-white` 
-                : 'hover:bg-gray-700'
+                ? `bg-gradient-to-r ${item.color} text-white glass-morphism-enhanced animate-pulse-glow` 
+                : 'hover:bg-gray-700 glass-morphism'
             }`}
             onClick={() => setActiveItem(item.id)}
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: index * 0.1 }}
             whileHover={{ 
-              x: 8,
-              scale: 1.02,
-              transition: { duration: 0.2 }
+              x: 16,
+              scale: 1.08,
+              rotateY: 10,
+              transition: { duration: 0.3, type: "spring", stiffness: 300 }
             }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ 
+              scale: 0.95,
+              rotateX: 5,
+              transition: { duration: 0.1 }
+            }}
           >
             <div className="flex items-center space-x-3">
               <item.icon className="text-lg" />
@@ -120,24 +132,36 @@ export default function Sidebar() {
       {/* User Profile */}
       <div className="p-4 border-t border-gray-700">
         <motion.div 
-          className="glass-morphism p-4 rounded-xl"
-          whileHover={{ scale: 1.02 }}
+          className="glass-morphism-enhanced p-4 rounded-xl animate-shimmer"
+          whileHover={{ 
+            scale: 1.05, 
+            y: -5,
+            transition: { duration: 0.3, type: "spring" }
+          }}
           transition={{ duration: 0.2 }}
         >
           <div className="flex items-center space-x-3">
             <motion.div 
-              className="w-10 h-10 bg-gradient-to-br from-green-500 to-cyan-500 rounded-full flex items-center justify-center"
+              className="w-10 h-10 bg-gradient-to-br from-green-500 via-emerald-500 to-cyan-500 rounded-full flex items-center justify-center animate-liquid-morph"
               animate={{
                 boxShadow: [
-                  "0 0 20px rgba(99, 102, 241, 0.3)",
-                  "0 0 30px rgba(99, 102, 241, 0.6)",
-                  "0 0 20px rgba(99, 102, 241, 0.3)"
-                ]
+                  "0 0 20px rgba(34, 197, 94, 0.4), 0 0 40px rgba(6, 182, 212, 0.2)",
+                  "0 0 40px rgba(34, 197, 94, 0.6), 0 0 60px rgba(6, 182, 212, 0.4)",
+                  "0 0 60px rgba(34, 197, 94, 0.8), 0 0 80px rgba(6, 182, 212, 0.6)",
+                  "0 0 40px rgba(34, 197, 94, 0.6), 0 0 60px rgba(6, 182, 212, 0.4)",
+                  "0 0 20px rgba(34, 197, 94, 0.4), 0 0 40px rgba(6, 182, 212, 0.2)"
+                ],
+                scale: [1, 1.1, 1.2, 1.1, 1]
               }}
               transition={{
-                duration: 2,
+                duration: 3,
                 repeat: Infinity,
                 ease: "easeInOut"
+              }}
+              whileHover={{
+                scale: 1.3,
+                rotate: 180,
+                transition: { duration: 0.5 }
               }}
             >
               <User className="text-white text-sm" />

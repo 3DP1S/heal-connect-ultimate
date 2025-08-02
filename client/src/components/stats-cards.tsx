@@ -38,27 +38,45 @@ export default function StatsCards() {
       {stats.map((stat, index) => (
         <motion.div
           key={index}
-          className="widget-card glass-morphism p-6 rounded-2xl"
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: stat.delay, duration: 0.5 }}
+          className="widget-card glass-morphism-enhanced p-6 rounded-2xl animate-shimmer"
+          initial={{ y: 80, opacity: 0, rotateX: -15 }}
+          animate={{ y: 0, opacity: 1, rotateX: 0 }}
+          transition={{ delay: stat.delay, duration: 0.8, type: "spring", stiffness: 100 }}
           whileHover={{ 
-            y: -5, 
-            scale: 1.02,
-            transition: { duration: 0.2 }
+            y: -12, 
+            scale: 1.08,
+            rotateY: 5,
+            rotateX: 5,
+            transition: { duration: 0.3, type: "spring" }
+          }}
+          whileTap={{
+            scale: 0.98,
+            transition: { duration: 0.1 }
           }}
         >
           <div className="flex items-center space-x-4">
             <motion.div 
-              className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center`}
+              className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center animate-liquid`}
               animate={{
-                y: [0, -10, 0]
+                y: [0, -15, 0],
+                rotate: [0, 5, -5, 0],
+                scale: [1, 1.1, 1],
+                boxShadow: [
+                  "0 5px 20px rgba(99, 102, 241, 0.3)",
+                  "0 10px 40px rgba(99, 102, 241, 0.6)",
+                  "0 5px 20px rgba(99, 102, 241, 0.3)"
+                ]
               }}
               transition={{
-                duration: 6,
+                duration: 8,
                 repeat: Infinity,
                 ease: "easeInOut",
                 delay: stat.delay * 2
+              }}
+              whileHover={{
+                rotate: 360,
+                scale: 1.2,
+                transition: { duration: 0.6 }
               }}
             >
               <stat.icon className="text-white text-xl" />

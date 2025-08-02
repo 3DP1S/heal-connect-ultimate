@@ -23,25 +23,39 @@ export default function AiAssistant() {
 
   return (
     <motion.div 
-      className="glass-morphism rounded-2xl p-6"
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6, delay: 0.8 }}
+      className="glass-morphism-enhanced rounded-2xl p-6 animate-pulse-glow"
+      initial={{ opacity: 0, x: 60, scale: 0.9 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      transition={{ duration: 0.8, delay: 0.8, type: "spring", stiffness: 150 }}
+      whileHover={{
+        scale: 1.03,
+        y: -3,
+        transition: { duration: 0.3 }
+      }}
     >
       <div className="flex items-center space-x-3 mb-4">
         <motion.div 
-          className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center"
+          className="w-8 h-8 bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 rounded-full flex items-center justify-center animate-liquid animate-rainbow-border"
           animate={{
             boxShadow: [
-              "0 0 20px rgba(99, 102, 241, 0.3)",
-              "0 0 30px rgba(99, 102, 241, 0.6)",
-              "0 0 20px rgba(99, 102, 241, 0.3)"
-            ]
+              "0 0 25px rgba(99, 102, 241, 0.4), 0 0 50px rgba(139, 92, 246, 0.2)",
+              "0 0 40px rgba(99, 102, 241, 0.7), 0 0 80px rgba(139, 92, 246, 0.4)",
+              "0 0 60px rgba(99, 102, 241, 0.9), 0 0 120px rgba(139, 92, 246, 0.6)",
+              "0 0 40px rgba(99, 102, 241, 0.7), 0 0 80px rgba(139, 92, 246, 0.4)",
+              "0 0 25px rgba(99, 102, 241, 0.4), 0 0 50px rgba(139, 92, 246, 0.2)"
+            ],
+            scale: [1, 1.1, 1.2, 1.1, 1],
+            rotate: [0, 10, -5, 15, 0]
           }}
           transition={{
-            duration: 2,
+            duration: 4,
             repeat: Infinity,
             ease: "easeInOut"
+          }}
+          whileHover={{
+            scale: 1.3,
+            rotate: 180,
+            transition: { duration: 0.6 }
           }}
         >
           <Bot className="text-white text-sm" />
@@ -76,7 +90,7 @@ export default function AiAssistant() {
           <Button 
             size="sm"
             onClick={handleSendMessage}
-            className="liquid-button bg-blue-500 hover:bg-blue-600 p-2 rounded-lg"
+            className="liquid-button bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 p-2 rounded-lg animate-pulse-glow"
           >
             <Send className="h-4 w-4" />
           </Button>

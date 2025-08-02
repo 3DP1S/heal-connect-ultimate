@@ -68,34 +68,88 @@
 
 @layer components {
   .glass-morphism {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(20px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+  }
+
+  .glass-morphism::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  }
+
+  .glass-morphism-enhanced {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(99, 102, 241, 0.1) 50%, rgba(255, 255, 255, 0.1) 100%);
+    backdrop-filter: blur(25px) saturate(1.5);
+    border: 2px solid;
+    border-image: linear-gradient(45deg, rgba(99, 102, 241, 0.5), rgba(139, 92, 246, 0.5), rgba(59, 130, 246, 0.5)) 1;
+    box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .nature-texture {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="%23059669" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="%2310B981" opacity="0.1"/><circle cx="40" cy="80" r="1" fill="%2306B6D4" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 60%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
+      linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(6, 182, 212, 0.05) 50%, rgba(99, 102, 241, 0.05) 100%),
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1.5" fill="%23059669" opacity="0.15"/><circle cx="80" cy="40" r="1" fill="%2310B981" opacity="0.1"/><circle cx="40" cy="80" r="1.2" fill="%2306B6D4" opacity="0.12"/><circle cx="60" cy="20" r="0.8" fill="%236366F1" opacity="0.08"/><circle cx="30" cy="60" r="1.3" fill="%238B5CF6" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    animation: texture-shift 20s ease-in-out infinite;
+  }
+  
+  @keyframes texture-shift {
+    0%, 100% {
+      background-position: 0% 0%, 100% 100%, 50% 50%, 0% 0%, 0% 0%;
+    }
+    33% {
+      background-position: 30% 20%, 70% 80%, 80% 30%, 10% 10%, 5% 5%;
+    }
+    66% {
+      background-position: 80% 70%, 20% 30%, 10% 80%, 90% 90%, 10% 10%;
+    }
   }
 
   .liquid-button {
-    @apply relative overflow-hidden transition-all duration-300 ease-in-out;
+    @apply relative overflow-hidden transition-all duration-500 ease-in-out;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: shimmer 3s ease-in-out infinite;
   }
 
   .liquid-button:hover {
-    @apply transform -translate-y-0.5 shadow-lg;
+    @apply transform -translate-y-2 scale-105 shadow-2xl;
+    animation: liquid-morph 1s ease-in-out infinite alternate;
   }
 
   .liquid-button::before {
-    @apply absolute top-0 w-full h-full opacity-0 transition-opacity duration-500;
+    @apply absolute top-0 left-0 w-full h-full opacity-0 transition-all duration-700;
     content: '';
-    left: -100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent, rgba(59, 130, 246, 0.3), transparent);
+    border-radius: inherit;
+    z-index: -1;
   }
 
   .liquid-button:hover::before {
     @apply opacity-100;
-    left: 100%;
+    animation: rotate-glow 2s linear infinite;
+  }
+
+  .liquid-button::after {
+    @apply absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500;
+    content: '';
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .liquid-button:hover::after {
+    @apply opacity-100;
+    animation: pulse-glow 1.5s ease-in-out infinite;
   }
 
   .sidebar-item {
@@ -107,30 +161,72 @@
   }
 
   .widget-card {
-    @apply transition-all duration-300 ease-in-out;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    @apply transition-all duration-500 ease-in-out relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(99, 102, 241, 0.1) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .widget-card::before {
+    @apply absolute inset-0 opacity-0 transition-all duration-500;
+    content: '';
+    background: linear-gradient(45deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+    border-radius: inherit;
+    z-index: -1;
   }
 
   .widget-card:hover {
-    @apply transform -translate-y-1 scale-105 shadow-xl;
+    @apply transform -translate-y-3 scale-110 shadow-2xl;
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4), 0 0 40px rgba(99, 102, 241, 0.2);
+  }
+
+  .widget-card:hover::before {
+    @apply opacity-100;
+    animation: slide-gradient 2s ease-in-out infinite;
   }
 }
 
 @layer utilities {
   .animate-liquid {
-    animation: liquid 3s ease-in-out infinite;
+    animation: liquid 4s ease-in-out infinite;
+  }
+
+  .animate-liquid-morph {
+    animation: liquid-morph 2s ease-in-out infinite alternate;
   }
 
   .animate-float {
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .animate-float-slow {
+    animation: float 12s ease-in-out infinite;
   }
 
   .animate-glow {
     animation: glow 2s ease-in-out infinite alternate;
   }
 
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  .animate-rainbow-border {
+    animation: rainbow-border 4s linear infinite;
+  }
+
   .animate-slide-in {
-    animation: slide-in 0.5s ease-out;
+    animation: slide-in 0.7s ease-out;
+  }
+
+  .animate-slide-in-slow {
+    animation: slide-in 1.2s ease-out;
   }
 }
 
@@ -138,8 +234,90 @@
   0%, 100% { 
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; 
   }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
   50% { 
-    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; 
+    border-radius: 40% 70% 30% 60% / 70% 50% 60% 30%; 
+  }
+  75% {
+    border-radius: 70% 30% 60% 40% / 30% 70% 40% 50%;
+  }
+}
+
+@keyframes liquid-morph {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: translateY(-8px) scale(1.05) rotate(0deg);
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: translateY(-12px) scale(1.08) rotate(1deg);
+  }
+  100% {
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    transform: translateY(-8px) scale(1.05) rotate(-1deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes rotate-glow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slide-gradient {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes rainbow-border {
+  0% {
+    border-color: rgba(255, 0, 150, 0.7);
+    box-shadow: 0 0 30px rgba(255, 0, 150, 0.5);
+  }
+  25% {
+    border-color: rgba(0, 255, 255, 0.7);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    border-color: rgba(50, 255, 50, 0.7);
+    box-shadow: 0 0 30px rgba(50, 255, 50, 0.5);
+  }
+  75% {
+    border-color: rgba(255, 255, 0, 0.7);
+    box-shadow: 0 0 30px rgba(255, 255, 0, 0.5);
+  }
+  100% {
+    border-color: rgba(255, 0, 150, 0.7);
+    box-shadow: 0 0 30px rgba(255, 0, 150, 0.5);
   }
 }
 
@@ -172,20 +350,93 @@
   }
 }
 
+/* Additional Animation Classes */
+.animate-breathing {
+  animation: breathing 4s ease-in-out infinite;
+}
+
+.animate-orbit {
+  animation: orbit 15s linear infinite;
+}
+
+.animate-wave {
+  animation: wave 6s ease-in-out infinite;
+}
+
+@keyframes breathing {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(50px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(50px) rotate(-360deg);
+  }
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  50% {
+    transform: translateY(0) translateX(10px);
+  }
+  75% {
+    transform: translateY(10px) translateX(5px);
+  }
+}
+
+/* Enhanced Morphing Effects */
+.morphing-border {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: liquid 8s ease-in-out infinite;
+  transition: all 0.5s ease;
+}
+
+.morphing-border:hover {
+  animation-duration: 2s;
+  border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+}
+
 /* High contrast mode */
 @media (prefers-contrast: high) {
   .glass-morphism {
     background: rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(255, 255, 255, 0.4);
   }
+  
+  .glass-morphism-enhanced {
+    background: rgba(255, 255, 255, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.6);
+  }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .animate-liquid,
+  .animate-liquid-morph,
   .animate-float,
+  .animate-float-slow,
   .animate-glow,
-  .animate-pulse {
+  .animate-pulse-glow,
+  .animate-shimmer,
+  .animate-rainbow-border,
+  .animate-breathing,
+  .animate-orbit,
+  .animate-wave,
+  .morphing-border {
     animation: none;
   }
   
@@ -193,6 +444,10 @@
   .sidebar-item,
   .widget-card {
     transition: none;
+  }
+  
+  .nature-texture {
+    animation: none;
   }
 }
 
