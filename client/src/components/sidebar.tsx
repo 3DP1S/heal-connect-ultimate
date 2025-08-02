@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, Palette, Box, Brain, Users, Leaf, Rocket, User, Flower2, Focus, BookOpen, Wind } from "lucide-react";
+import { Heart, Palette, Box, Brain, Users, Leaf, Rocket, User, Flower2, Focus, BookOpen, Wind, ShoppingBag, Store, Video, Camera } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "wouter";
 
@@ -43,6 +43,38 @@ const sidebarItems = [
     description: 'Guided breathing patterns',
     color: 'from-teal-500 to-cyan-500',
     path: '/breathing'
+  },
+  {
+    id: 'marketplace',
+    icon: ShoppingBag,
+    title: 'Healing Marketplace',
+    description: 'Discover wellness products',
+    color: 'from-purple-500 to-pink-500',
+    path: '/marketplace'
+  },
+  {
+    id: 'seller-dashboard',
+    icon: Store,
+    title: 'Seller Dashboard',
+    description: 'Manage your storefront',
+    color: 'from-emerald-500 to-teal-500',
+    path: '/seller-dashboard'
+  },
+  {
+    id: 'video-platform',
+    icon: Video,
+    title: 'Video Platform',
+    description: 'Healing content & creators',
+    color: 'from-red-500 to-pink-500',
+    path: '/video-platform'
+  },
+  {
+    id: 'creator-dashboard',
+    icon: Camera,
+    title: 'Creator Studio',
+    description: 'Upload & manage videos',
+    color: 'from-orange-500 to-red-500',
+    path: '/creator-dashboard'
   },
   {
     id: '3d-generator',
