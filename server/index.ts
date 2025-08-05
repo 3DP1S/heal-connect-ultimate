@@ -5,6 +5,7 @@ import { healthMonitor } from "./health-monitor.js";
 import { performanceTracker, rateLimitMiddleware } from "./middleware/performance.js";
 import { HealingWebSocketServer } from "./websocket.js";
 import { createConnectionHealer } from "./connection-healer.js";
+import { createHealConnectUltimate } from "./heal-connect-ultimate.js";
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
@@ -111,6 +112,15 @@ app.get('/health', (req, res) => {
     // Initialize THAENOS Connection Healer
     const connectionHealer = createConnectionHealer(server);
     log('🔧 THAENOS Connection Healer activated');
+    
+    // Initialize HEAL CONNECT ULTIMATE
+    const healConnect = createHealConnectUltimate(server);
+    log('🚀 HEAL CONNECT ULTIMATE: Universal bug detection and repair system activated');
+    
+    // Set global reference for diagnostics API
+    import('./routes/systems-diagnostics.js').then(({ setGlobalHealConnect }) => {
+      setGlobalHealConnect(healConnect);
+    });
     
     // Enhanced error handling for connection issues
     server.on('clientError', (err, socket) => {

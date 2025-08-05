@@ -627,6 +627,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Systems Diagnostics Routes
+  const { systemsDiagnosticsRouter, setGlobalHealConnect } = await import('./routes/systems-diagnostics.js');
+  app.use('/api/systems', systemsDiagnosticsRouter);
+
   // Emergency Static Dashboard Route
   app.get("/emergency", (req, res) => {
     const staticHTML = `<!DOCTYPE html>
