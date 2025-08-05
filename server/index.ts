@@ -77,10 +77,7 @@ app.get('/health', (req, res) => {
     throw err;
   });
 
-  // Emergency redirect to working dashboard
-  app.get('/', (req, res) => {
-    res.redirect('/emergency');
-  });
+  // Remove the emergency redirect - let React handle routing
 
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
