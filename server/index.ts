@@ -79,36 +79,22 @@ app.get('/health', (req, res) => {
     throw err;
   });
 
-  // Serve React components directly to restore exact session start state
+  // Serve the original HTML dashboard with all liquid enhancements restored
   app.get('/', (req, res) => {
-    const reactIndex = `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ELOHIM-O LocalForge</title>
-    <script type="module" crossorigin src="/assets/index-2YOCRMBj.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Dy-bUqWu.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script>
-      console.log('🔧 ELOHIM-O LocalForge Dashboard Loaded');
-      console.log('✨ HEAL CONNECT ULTIMATE: All systems operational');
-      console.log('💫 Original liquid enhancements and visual effects restored');
-    </script>
-  </body>
-</html>`;
-    res.send(reactIndex);
+    const dashboardPath = path.resolve('./public/dashboard-original.html');
+    if (fs.existsSync(dashboardPath)) {
+      res.sendFile(dashboardPath);
+    } else {
+      res.status(404).send('Dashboard not found');
+    }
   });
 
   // HEAL CONNECT: Permanently disable Vite to prevent connection issues
   console.log('🔧 HEAL CONNECT: Vite middleware permanently disabled for system stability');
   
-  // Serve built React assets with all original liquid components
-  app.use('/assets', express.static('./dist/public/assets'));
-  app.use(express.static('./dist/public'));
+  // Serve static files directly for original HTML dashboard
   app.use(express.static('./public'));
+  app.use('/assets', express.static('./attached_assets'));
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
   // Other ports are firewalled. Default to 5000 if not specified.
