@@ -92,43 +92,14 @@ class ConnectionStabilizer {
   private performEmergencyStabilization(): void {
     console.log('🚨 THAENOS Emergency Stabilization: Maximum attempts reached');
     
-    // Show user-friendly message
-    const emergency = document.createElement('div');
-    emergency.id = 'thaenos-emergency';
-    emergency.innerHTML = `
-      <div style="
-        position: fixed; 
-        top: 20px; 
-        right: 20px; 
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-        color: white; 
-        padding: 15px; 
-        border-radius: 10px; 
-        z-index: 10000;
-        font-family: system-ui;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      ">
-        <strong>🔧 THAENOS Healing Protocol</strong><br>
-        Connection stabilization in progress...<br>
-        <button onclick="window.location.reload()" style="
-          background: rgba(255,255,255,0.2); 
-          border: none; 
-          color: white; 
-          padding: 8px 16px; 
-          border-radius: 5px; 
-          margin-top: 10px; 
-          cursor: pointer;
-        ">Refresh Page</button>
-      </div>
-    `;
-    
-    document.body.appendChild(emergency);
-    
-    // Auto-remove after 10 seconds
-    setTimeout(() => {
-      const elem = document.getElementById('thaenos-emergency');
-      if (elem) elem.remove();
-    }, 10000);
+    // Trigger the ViteRecovery component by dispatching a custom event
+    window.dispatchEvent(new CustomEvent('vite-emergency', {
+      detail: {
+        attempts: this.reconnectAttempts,
+        timestamp: Date.now(),
+        message: 'Emergency stabilization required'
+      }
+    }));
     
     this.isStabilizing = false;
     this.reconnectAttempts = 0;

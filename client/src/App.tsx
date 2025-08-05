@@ -4,7 +4,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { THAENOSHealingIndicator } from "@/components/thaenos-healing-indicator";
-import Dashboard from "@/pages/dashboard";
+import { ViteRecovery } from "@/components/vite-recovery";
+import EmergencyDashboard from "@/pages/emergency-dashboard";
 import MeditationPage from "@/pages/meditation";
 import StressTrackerPage from "@/pages/stress-tracker";
 import JournalPage from "@/pages/journal";
@@ -23,7 +24,7 @@ import NotFound from "@/pages/not-found";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Dashboard} />
+      <Route path="/" component={EmergencyDashboard} />
       <Route path="/meditation" component={MeditationPage} />
       <Route path="/stress-tracker" component={StressTrackerPage} />
       <Route path="/journal" component={JournalPage} />
@@ -44,15 +45,9 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <div className="dark">
-          <THAENOSHealingIndicator />
-          <Toaster />
-          <Router />
-        </div>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <div className="dark">
+      <Router />
+    </div>
   );
 }
 

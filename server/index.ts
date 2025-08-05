@@ -76,6 +76,11 @@ app.get('/health', (req, res) => {
     throw err;
   });
 
+  // Emergency redirect to working dashboard
+  app.get('/', (req, res) => {
+    res.redirect('/emergency');
+  });
+
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
