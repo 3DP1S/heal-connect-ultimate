@@ -32,7 +32,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden relative">
-      {/* HEAL CONNECT Indicator - Added Enhancement */}
+      {/* HEAL CONNECT Indicator */}
       <THAENOSHealingIndicator />
       
       {/* Animated Background Particles */}

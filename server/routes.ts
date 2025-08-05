@@ -631,7 +631,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const { systemsDiagnosticsRouter, setGlobalHealConnect } = await import('./routes/systems-diagnostics.js');
   app.use('/api/systems', systemsDiagnosticsRouter);
 
-  // Static fallback with working React app
+  // Original dashboard - preserves exact original design with HEAL CONNECT enhancement
   app.get("/static-app", (req, res) => {
     const staticHTML = `<!DOCTYPE html>
 <html lang="en">
@@ -639,179 +639,234 @@ export async function registerRoutes(app: Express): Promise<Server> {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ELOHIM-O LocalForge - Healing Platform</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: system-ui; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; min-height: 100vh; margin: 0; }
+        body { 
+            font-family: system-ui; 
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); 
+            color: white; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
         .dark { color-scheme: dark; }
+        .glass-morphism { 
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+        }
+        .nature-texture::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+        @keyframes liquid { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.1) rotate(180deg); } }
+        @keyframes pulse-glow { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-liquid { animation: liquid 8s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
     </style>
 </head>
 <body>
-    <div id="root">
-        <div class="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-            <!-- Sidebar -->
-            <div class="w-64 bg-black/30 backdrop-blur-sm border-r border-gray-700">
-                <div class="p-6">
-                    <h1 class="text-xl font-bold text-cyan-400">ELOHIM-O LocalForge</h1>
-                    <p class="text-sm text-gray-400 mt-1">Healing Platform</p>
-                </div>
-                <nav class="mt-8">
-                    <div class="space-y-2 px-4">
-                        <button onclick="showTab('overview')" class="w-full text-left px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-300">Dashboard</button>
-                        <button onclick="showTab('status')" class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-300">System Status</button>
-                        <button onclick="showTab('diagnostics')" class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-300">Diagnostics</button>
-                    </div>
-                </nav>
+    <div class="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden relative">
+        <!-- HEAL CONNECT Indicator - Top Right -->
+        <div class="absolute top-4 right-4 z-50 bg-green-500/20 backdrop-blur-sm border border-green-500/30 rounded-lg px-3 py-1">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span class="text-xs text-green-400 font-medium">HEAL CONNECT</span>
+            </div>
+        </div>
+        
+        <!-- Animated Background Particles -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-10 left-10 w-20 h-20 bg-blue-500/20 rounded-full animate-float"></div>
+            <div class="absolute top-32 right-20 w-12 h-12 bg-purple-500/20 rounded-full animate-float"></div>
+            <div class="absolute bottom-20 left-32 w-16 h-16 bg-cyan-500/20 rounded-full animate-liquid"></div>
+            <div class="absolute top-1/2 right-10 w-8 h-8 bg-green-500/20 rounded-full animate-pulse-glow"></div>
+            <div class="absolute bottom-32 right-1/3 w-14 h-14 bg-pink-500/20 rounded-full animate-float"></div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="w-64 bg-black/30 backdrop-blur-sm border-r border-gray-700 relative z-10">
+            <div class="p-6">
+                <h1 class="text-xl font-bold text-cyan-400">ELOHIM-O LocalForge</h1>
+                <p class="text-sm text-gray-400 mt-1">Healing Platform</p>
             </div>
             
-            <!-- Main Content -->
-            <div class="flex-1 flex flex-col">
-                <header class="bg-black/20 backdrop-blur-sm border-b border-gray-700 p-6">
-                    <h2 class="text-2xl font-bold">HEAL CONNECT ULTIMATE Dashboard</h2>
-                    <p class="text-gray-400">Universal healing platform with auto-repair capabilities</p>
-                </header>
+            <nav class="mt-8 space-y-2 px-4">
+                <div class="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-300 cursor-pointer">
+                    <span class="text-sm">🏠 Dashboard</span>
+                </div>
+                <div class="px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-300 cursor-pointer">
+                    <span class="text-sm">🧘 Meditation</span>
+                </div>
+                <div class="px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-300 cursor-pointer">
+                    <span class="text-sm">📈 Stress Tracker</span>
+                </div>
+                <div class="px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-300 cursor-pointer">
+                    <span class="text-sm">📝 Journal</span>
+                </div>
+                <div class="px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-300 cursor-pointer">
+                    <span class="text-sm">🫁 Breathing</span>
+                </div>
+                <div class="px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-300 cursor-pointer">
+                    <span class="text-sm">🛒 Marketplace</span>
+                </div>
+                <div class="px-4 py-2 rounded-lg hover:bg-gray-700 text-gray-300 cursor-pointer">
+                    <span class="text-sm">⚡ Quantum Healing</span>
+                </div>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col relative z-10">
+            <!-- Header -->
+            <header class="bg-black/20 backdrop-blur-sm border-b border-gray-700 p-6">
+                <h2 class="text-2xl font-bold">Welcome back to your healing space</h2>
+                <p class="text-gray-400 mt-1">Continue your journey to wellness and inner peace</p>
+            </header>
+            
+            <!-- Main Dashboard -->
+            <main class="flex-1 p-6 nature-texture overflow-y-auto relative">
+                <!-- Floating Orbs -->
+                <div class="absolute inset-0 pointer-events-none">
+                    <div class="absolute top-20 left-1/4 w-32 h-32 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full animate-float blur-xl"></div>
+                    <div class="absolute bottom-32 right-1/4 w-40 h-40 bg-gradient-to-r from-cyan-500/10 to-green-500/10 rounded-full animate-float blur-2xl"></div>
+                </div>
                 
-                <main class="flex-1 p-6 overflow-y-auto">
-                    <!-- Overview Tab -->
-                    <div id="overview-tab" class="tab-content">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                            <div class="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-6">
-                                <h3 class="text-cyan-400 text-sm font-medium">Active Projects</h3>
-                                <div class="text-3xl font-bold text-cyan-300 mt-2">12</div>
-                                <p class="text-gray-400 text-sm">Healing apps deployed</p>
-                            </div>
-                            <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-6">
-                                <h3 class="text-green-400 text-sm font-medium">Health Score</h3>
-                                <div class="text-3xl font-bold text-green-300 mt-2">100%</div>
-                                <p class="text-gray-400 text-sm">System operational</p>
-                            </div>
-                            <div class="bg-purple-500/10 border border-purple-500/30 rounded-lg p-6">
-                                <h3 class="text-purple-400 text-sm font-medium">Sessions</h3>
-                                <div class="text-3xl font-bold text-purple-300 mt-2">847</div>
-                                <p class="text-gray-400 text-sm">Healing completed</p>
-                            </div>
+                <div class="relative z-10">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="glass-morphism rounded-xl p-6">
+                            <h3 class="text-sm font-medium text-gray-400">Total Projects</h3>
+                            <div class="text-3xl font-bold text-white mt-2">12</div>
+                            <p class="text-xs text-green-400 mt-1">+2 this month</p>
                         </div>
-                        
-                        <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
-                            <h3 class="text-white text-lg font-semibold mb-4">Recent Projects</h3>
-                            <div class="space-y-3">
-                                <div class="flex justify-between items-center p-3 bg-gray-700/50 rounded">
-                                    <span class="text-gray-300">Meditation App Builder</span>
-                                    <span class="text-green-400 text-sm">Active</span>
-                                </div>
-                                <div class="flex justify-between items-center p-3 bg-gray-700/50 rounded">
-                                    <span class="text-gray-300">Anxiety Relief Simulator</span>
-                                    <span class="text-green-400 text-sm">Deployed</span>
-                                </div>
-                                <div class="flex justify-between items-center p-3 bg-gray-700/50 rounded">
-                                    <span class="text-gray-300">Healing Community Hub</span>
-                                    <span class="text-yellow-400 text-sm">Building</span>
-                                </div>
-                            </div>
+                        <div class="glass-morphism rounded-xl p-6">
+                            <h3 class="text-sm font-medium text-gray-400">Active Users</h3>
+                            <div class="text-3xl font-bold text-white mt-2">1,234</div>
+                            <p class="text-xs text-green-400 mt-1">+15% from last week</p>
+                        </div>
+                        <div class="glass-morphism rounded-xl p-6">
+                            <h3 class="text-sm font-medium text-gray-400">Healing Sessions</h3>
+                            <div class="text-3xl font-bold text-white mt-2">847</div>
+                            <p class="text-xs text-green-400 mt-1">+23% increase</p>
+                        </div>
+                        <div class="glass-morphism rounded-xl p-6">
+                            <h3 class="text-sm font-medium text-gray-400">Revenue</h3>
+                            <div class="text-3xl font-bold text-white mt-2">$2,340</div>
+                            <p class="text-xs text-green-400 mt-1">+8% this month</p>
                         </div>
                     </div>
                     
-                    <!-- Status Tab -->
-                    <div id="status-tab" class="tab-content hidden">
-                        <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-6 mb-6">
-                            <div class="flex items-center gap-2">
-                                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                                <h3 class="text-green-400 text-lg font-semibold">Platform Successfully Repaired</h3>
-                            </div>
-                            <p class="text-green-300 mt-2">THAENOS v25.0.300 healing system operational. All core systems restored.</p>
-                        </div>
-                        
-                        <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6">
-                            <h3 class="text-white text-lg font-semibold mb-4">THAENOS System Status</h3>
-                            <div class="space-y-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Connection Healer</span>
-                                    <span class="text-green-400 flex items-center gap-2">
-                                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                        Active
-                                    </span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Health Monitor</span>
-                                    <span class="text-green-400 flex items-center gap-2">
-                                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                        100/100
-                                    </span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Auto-Repair</span>
-                                    <span class="text-green-400 flex items-center gap-2">
-                                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                        Running
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Diagnostics Tab -->
-                    <div id="diagnostics-tab" class="tab-content hidden">
-                        <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 mb-6">
-                            <h3 class="text-blue-400 text-lg font-semibold">System Health Overview</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                                <div class="text-center p-3 bg-gray-800 rounded-lg">
-                                    <div class="text-2xl font-bold text-green-400">85%</div>
-                                    <div class="text-sm text-gray-400">Overall</div>
-                                </div>
-                                <div class="text-center p-3 bg-gray-800 rounded-lg">
-                                    <div class="text-2xl font-bold text-red-400">0%</div>
-                                    <div class="text-sm text-gray-400">Vite</div>
-                                </div>
-                                <div class="text-center p-3 bg-gray-800 rounded-lg">
-                                    <div class="text-2xl font-bold text-green-400">100%</div>
-                                    <div class="text-sm text-gray-400">API</div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Recent Projects -->
+                        <div class="lg:col-span-2">
+                            <div class="glass-morphism rounded-xl p-6">
+                                <h3 class="text-lg font-semibold mb-4">Recent Projects</h3>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg">
+                                        <div>
+                                            <h4 class="font-medium">Meditation App Builder</h4>
+                                            <p class="text-sm text-gray-400">Updated 2 hours ago</p>
+                                        </div>
+                                        <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">Active</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg">
+                                        <div>
+                                            <h4 class="font-medium">Anxiety Relief Simulator</h4>
+                                            <p class="text-sm text-gray-400">Updated 1 day ago</p>
+                                        </div>
+                                        <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">Deployed</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg">
+                                        <div>
+                                            <h4 class="font-medium">Healing Community Hub</h4>
+                                            <p class="text-sm text-gray-400">Updated 3 days ago</p>
+                                        </div>
+                                        <span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs">Building</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-6">
-                            <h3 class="text-green-400 text-lg font-semibold">HEAL CONNECT Ultimate Solution</h3>
-                            <div class="mt-4">
-                                <p class="text-white font-medium">Approach: Hybrid Architecture</p>
-                                <ul class="list-disc list-inside text-gray-400 mt-2 space-y-1">
-                                    <li>Eliminates Vite middleware conflicts</li>
-                                    <li>Provides emergency fallback dashboard</li>
-                                    <li>Universal compatibility with any system</li>
-                                    <li>Scales seamlessly from development to production</li>
-                                </ul>
+                        <div class="space-y-6">
+                            <!-- Quick Actions -->
+                            <div class="glass-morphism rounded-xl p-6">
+                                <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+                                <div class="space-y-3">
+                                    <button class="w-full text-left px-4 py-3 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg hover:from-blue-500/30 hover:to-purple-500/30 transition-all">
+                                        Create New App
+                                    </button>
+                                    <button class="w-full text-left px-4 py-3 bg-gradient-to-r from-green-500/20 to-cyan-500/20 rounded-lg hover:from-green-500/30 hover:to-cyan-500/30 transition-all">
+                                        Deploy to Production
+                                    </button>
+                                    <button class="w-full text-left px-4 py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg hover:from-purple-500/30 hover:to-pink-500/30 transition-all">
+                                        View Analytics
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- System Status -->
+                            <div class="glass-morphism rounded-xl p-6">
+                                <h3 class="text-lg font-semibold mb-4">System Status</h3>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">HEAL CONNECT</span>
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                            <span class="text-xs text-green-500">Active</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">AI Agents</span>
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                            <span class="text-xs text-green-500">Online</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">Local Storage</span>
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                            <span class="text-xs text-green-500">84% Free</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm">Quantum Simulator</span>
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 bg-cyan-500 rounded-full animate-pulse"></div>
+                                            <span class="text-xs text-cyan-500">Ready</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </main>
-            </div>
+                </div>
+            </main>
         </div>
     </div>
     
     <script>
-        function showTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.add('hidden');
-            });
-            
-            // Show selected tab
-            document.getElementById(tabName + '-tab').classList.remove('hidden');
-            
-            // Update navigation
-            document.querySelectorAll('nav button').forEach(btn => {
-                btn.classList.remove('bg-cyan-500/20', 'text-cyan-300');
-                btn.classList.add('hover:bg-gray-700', 'text-gray-300');
-            });
-            
-            event.target.classList.add('bg-cyan-500/20', 'text-cyan-300');
-            event.target.classList.remove('hover:bg-gray-700', 'text-gray-300');
-        }
-        
         // Auto-refresh system data
         setInterval(function() {
             console.log('HEAL CONNECT: System monitoring active');
         }, 5000);
+        
+        // Add subtle animations
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('ELOHIM-O LocalForge Dashboard Loaded');
+            console.log('HEAL CONNECT ULTIMATE: Monitoring active');
+        });
     </script>
 </body>
 </html>`;

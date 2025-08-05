@@ -2,6 +2,12 @@ import { motion } from "framer-motion";
 
 const systemItems = [
   {
+    name: 'HEAL CONNECT',
+    status: 'Active',
+    color: 'bg-green-500',
+    pulse: true
+  },
+  {
     name: 'AI Agents',
     status: 'Online',
     color: 'bg-green-500',
