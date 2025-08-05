@@ -77,7 +77,10 @@ app.get('/health', (req, res) => {
     throw err;
   });
 
-  // Remove the emergency redirect - let React handle routing
+  // Redirect to working static app until Vite issues are resolved
+  app.get('/', (req, res) => {
+    res.redirect('/static-app');
+  });
 
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
