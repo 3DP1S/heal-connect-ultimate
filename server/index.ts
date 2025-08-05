@@ -123,8 +123,10 @@ app.get('/health', (req, res) => {
     log('🚀 HEAL CONNECT ULTIMATE: Universal bug detection and repair system activated');
     
     // Set global reference for diagnostics API
-    import('./routes/systems-diagnostics.js').then(({ setGlobalHealConnect }) => {
+    import('./routes/systems-diagnostics.ts').then(({ setGlobalHealConnect }) => {
       setGlobalHealConnect(healConnect);
+    }).catch((error) => {
+      log('Warning: Could not load systems diagnostics module', error.message);
     });
     
     // Enhanced error handling for connection issues

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createHealConnectUltimate } from '../heal-connect-ultimate.js';
+import { createHealConnectUltimate } from '../heal-connect-ultimate.ts';
 
 export const systemsDiagnosticsRouter = Router();
 
