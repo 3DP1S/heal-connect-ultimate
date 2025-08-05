@@ -3,6 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { THAENOSHealingIndicator } from "@/components/thaenos-healing-indicator";
 import Dashboard from "@/pages/dashboard";
 import MeditationPage from "@/pages/meditation";
 import StressTrackerPage from "@/pages/stress-tracker";
@@ -46,6 +47,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <div className="dark">
+          <THAENOSHealingIndicator />
           <Toaster />
           <Router />
         </div>

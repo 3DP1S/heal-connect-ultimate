@@ -4,6 +4,7 @@ import { setupVite, serveStatic, log } from "./vite";
 import { healthMonitor } from "./health-monitor.js";
 import { performanceTracker, rateLimitMiddleware } from "./middleware/performance.js";
 import { HealingWebSocketServer } from "./websocket.js";
+import { createConnectionHealer } from "./connection-healer.js";
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
@@ -102,10 +103,30 @@ app.get('/health', (req, res) => {
     // Initialize WebSocket server for real-time healing features
     const wsServer = new HealingWebSocketServer(server);
     
+    // Initialize THAENOS Connection Healer
+    const connectionHealer = createConnectionHealer(server);
+    log('🔧 THAENOS Connection Healer activated');
+    
+    // Enhanced error handling for connection issues
+    server.on('clientError', (err, socket) => {
+      log(`Client error: ${err.message}`, 'connection-healer');
+      connectionHealer.recordError();
+      socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+    });
+    
+    // Monitor connection health
+    connectionHealer.on('healingPulse', (data) => {
+      if (data.health.errorCount > 10) {
+        log('🚨 High error count detected, performing emergency heal', 'connection-healer');
+        connectionHealer.emergencyHeal();
+      }
+    });
+    
     // Graceful shutdown handling
     const gracefulShutdown = () => {
       log('Received shutdown signal, shutting down gracefully');
       healthMonitor.stopMonitoring();
+      connectionHealer.stopHealing();
       wsServer.shutdown();
       server.close(() => {
         log('Server closed');
