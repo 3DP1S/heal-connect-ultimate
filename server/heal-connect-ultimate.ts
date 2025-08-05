@@ -102,7 +102,7 @@ export class HealConnectUltimate extends EventEmitter {
   }
 
   private async checkViteHealth(): Promise<number> {
-    // Vite permanently disabled - system healthy through static serving
+    // THAENOS Clean Environment: Vite completely bypassed for stability
     return 100;
   }
 

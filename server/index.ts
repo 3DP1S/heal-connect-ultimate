@@ -79,22 +79,22 @@ app.get('/health', (req, res) => {
     throw err;
   });
 
-  // Serve the original HTML dashboard with all liquid enhancements restored
-  app.get('/', (req, res) => {
-    const dashboardPath = path.resolve('./public/dashboard-original.html');
-    if (fs.existsSync(dashboardPath)) {
-      res.sendFile(dashboardPath);
+  // THAENOS Systems Clean Environment: Bypass Vite to prevent connection failures
+  console.log('🔧 THAENOS Systems: Implementing clean environment without Vite middleware');
+  
+  // Serve built React app directly - no Vite middleware
+  app.use(express.static('./dist/public'));
+  app.use('/assets', express.static('./dist/public/assets'));
+  
+  // Fallback route for React routing
+  app.get('*', (req, res) => {
+    const indexPath = path.resolve('./dist/public/index.html');
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
     } else {
-      res.status(404).send('Dashboard not found');
+      res.status(404).send('App not found - run build first');
     }
   });
-
-  // HEAL CONNECT: Permanently disable Vite to prevent connection issues
-  console.log('🔧 HEAL CONNECT: Vite middleware permanently disabled for system stability');
-  
-  // Serve static files directly for original HTML dashboard
-  app.use(express.static('./public'));
-  app.use('/assets', express.static('./attached_assets'));
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
   // Other ports are firewalled. Default to 5000 if not specified.
