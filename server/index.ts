@@ -77,7 +77,7 @@ app.get('/health', (req, res) => {
     throw err;
   });
 
-  // Redirect to working static app - React app has Vite connection issues
+  // Redirect to static app with full original graphics - React app has Vite issues
   app.get('/', (req, res) => {
     res.redirect('/static-app');
   });
