@@ -1,0 +1,27 @@
+ELOHIM-O LocalForge Quantum Deployment Log - Generated: Tue Aug  5 07:19:56 PM UTC 2025
+Binary Yes: Log Initialized for LocalForge Quantum Deployment.
+Internet: Unstable
+Resource Check: Sufficient for LocalForge
+Node: Compatible (v20.19.3)
+Dependencies: Present
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+vite v5.4.19 building for production...
+transforming...
+Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2070 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/public/index.html                   0.63 kB │ gzip:   0.38 kB
+../dist/public/assets/index-BDIHe1mS.css   94.88 kB │ gzip:  15.92 kB
+../dist/public/assets/index-DiUmTkBi.js   640.23 kB │ gzip: 182.45 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 14.85s

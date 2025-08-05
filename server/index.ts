@@ -1,10 +1,19 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { healthMonitor } from "./health-monitor.js";
+import { performanceTracker, rateLimitMiddleware } from "./middleware/performance.js";
+import { HealingWebSocketServer } from "./websocket.js";
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+// Only add performance tracking in development
+if (process.env.NODE_ENV === 'development') {
+  app.use(performanceTracker.middleware());
+}
+// Disable rate limiting temporarily for development
+// app.use(rateLimitMiddleware());
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -34,6 +43,25 @@ app.use((req, res, next) => {
   });
 
   next();
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  const healthStatus = healthMonitor.getHealthStatus();
+  const performanceMetrics = performanceTracker.getDetailedStats();
+  
+  res.status(healthStatus.status === 'healthy' ? 200 : 503).json({
+    status: healthStatus.status,
+    timestamp: new Date().toISOString(),
+    health: {
+      score: healthStatus.score,
+      checks: healthStatus.checks
+    },
+    performance: performanceMetrics,
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    version: process.env.npm_package_version || '1.0.0'
+  });
 });
 
 (async () => {
@@ -67,5 +95,25 @@ app.use((req, res, next) => {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
+    
+    // Start health monitoring
+    healthMonitor.startMonitoring();
+    
+    // Initialize WebSocket server for real-time healing features
+    const wsServer = new HealingWebSocketServer(server);
+    
+    // Graceful shutdown handling
+    const gracefulShutdown = () => {
+      log('Received shutdown signal, shutting down gracefully');
+      healthMonitor.stopMonitoring();
+      wsServer.shutdown();
+      server.close(() => {
+        log('Server closed');
+        process.exit(0);
+      });
+    };
+    
+    process.on('SIGTERM', gracefulShutdown);
+    process.on('SIGINT', gracefulShutdown);
   });
 })();

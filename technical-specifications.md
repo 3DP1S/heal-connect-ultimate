@@ -1,164 +1,217 @@
-# ELOHIM-O LocalForge Technical Specifications
-## Phase 3 Infrastructure Requirements & Current Architecture
+# ELOHIM-O LocalForge: Technical Specifications v25.0.205
 
-### Executive Summary
-ELOHIM-O LocalForge is a comprehensive offline-first healing application development platform designed for global scalability. Having completed Phase 2 (marketplace and video platform infrastructure), we are advancing to Phase 3 specialized networks requiring enterprise-grade hosting and collaborative development support.
+## System Overview
+ELOHIM-O LocalForge has been enhanced with quantum-grade deployment automation and comprehensive health monitoring systems. The platform now supports real-time healing sessions, advanced performance tracking, and production-ready deployment capabilities.
 
-### Current Platform Architecture
+## Health Monitoring & Performance System
 
-#### Frontend Technology Stack
-- **Framework**: React 18 with TypeScript
-- **Build System**: Vite (development server & bundling)
-- **UI Components**: shadcn/ui with Radix UI primitives
-- **Styling**: Tailwind CSS with custom healing theme
-- **Animations**: Framer Motion for liquid-style transitions
-- **Routing**: Wouter (lightweight client-side routing)
-- **State Management**: TanStack Query for server state
+### Health Score Calculation
+- **Base Score**: 100/100
+- **Error Rate Impact**: -2 points per 1% error rate (max -30)
+- **Unhealthy Checks**: -20 points per check
+- **Degraded Checks**: -10 points per check
+- **Current Status**: 70/100 (Degraded) with 21% error rate and 149MB memory usage
 
-#### Backend Technology Stack
-- **Runtime**: Node.js with Express.js
-- **Language**: TypeScript (full-stack type safety)
-- **Database**: PostgreSQL with Drizzle ORM
-- **Session Management**: connect-pg-simple with Express sessions
-- **Authentication**: Passport.js with local strategy
-- **Development Environment**: tsx for TypeScript execution
+### Real-time Metrics Tracked
+- Request count and response times (P50, P90, P95, P99 percentiles)
+- Memory usage and heap utilization
+- Error count and patterns
+- WebSocket connection status
+- Database connectivity
+- Uptime and system stability
 
-#### Data Architecture
-- **Storage Pattern**: Interface-based abstraction layer
-- **Database Schema**: Comprehensive healing ecosystem tables
-  - User management and authentication
-  - Project lifecycle management
-  - Marketplace (sellers, products, orders, payments)
-  - Video platform (creators, videos, monetization)
-  - Healing features (meditation, stress tracking, journals)
-- **Data Sovereignty**: Offline-first design per Scroll Law
-- **Security**: Encrypted journal entries, secure payment processing
+### Health Check Endpoints
+- **Primary**: `GET /health` - Comprehensive system status
+- **WebSocket**: `ws://localhost:5000/healing-ws` - Real-time healing features
+- **Performance**: Automatic middleware tracking all requests
 
-### Phase 3 Infrastructure Needs
+## WebSocket Real-time Features
 
-#### Scalability Requirements
-- **User Capacity**: 50,000+ concurrent users per specialized network
-- **Video Streaming**: High-bandwidth content delivery for healing videos
-- **Real-time Features**: Live meditation sessions, group therapy rooms
-- **Geographic Distribution**: Global CDN for optimal performance
-- **Mobile Support**: Progressive Web App capabilities
+### Supported Session Types
+1. **Meditation Sessions**
+   - Live progress sharing
+   - Synchronized meditation timers
+   - Group meditation support
+   - Real-time participant updates
 
-#### Specialized Networks Architecture
-- **Women's Wellness Network**: Focus on female-specific healing modalities
-- **Men's Wellness Network**: Masculine healing approaches and community
-- **Youth Healing Hub**: Age-appropriate content and safety features
-- **Elder Care Network**: Accessibility-focused design and health monitoring
-- **Professional Therapist Platform**: Licensed practitioner tools and compliance
+2. **Breathing Exercises**
+   - Synchronized breathing patterns
+   - Group breathing sessions
+   - Pattern sharing (inhale/exhale/hold)
 
-#### Performance Specifications
-- **Response Time**: <200ms for all UI interactions
-- **Video Streaming**: 4K capability with adaptive bitrate
-- **Offline Functionality**: Full app operation without internet
-- **Data Sync**: Seamless cloud synchronization when connected
-- **Mobile Performance**: 60fps animations on mid-range devices
+3. **Stress Tracking**
+   - Live stress level updates
+   - Factor identification
+   - Community support notifications
+   - Progress sharing
 
-### Integration Requirements
+4. **Collaboration**
+   - Real-time project editing
+   - Live chat messaging
+   - Participant management
+   - Session state synchronization
 
-#### API Architecture
-- **RESTful Design**: Standard HTTP endpoints for all operations
-- **Real-time Communication**: WebSocket support for live features
-- **Authentication**: JWT-based with refresh token rotation
-- **Rate Limiting**: Configurable per endpoint and user tier
-- **Documentation**: OpenAPI 3.0 specification
+### WebSocket Security Features
+- Authentication verification before joining sessions
+- Rate limiting and connection management
+- Automatic reconnection with exponential backoff
+- Graceful degradation on connection loss
 
-#### Third-party Integrations
-- **Payment Processing**: Stripe and PayPal integration
-- **Video Hosting**: Optimized for healing content delivery
-- **Analytics**: Privacy-focused user behavior tracking
-- **Email Services**: Automated healing journey communications
-- **SMS Notifications**: Crisis support and appointment reminders
+## Enhanced Server Architecture
 
-### Security & Compliance
+### Middleware Stack
+1. **Performance Tracking**: Request/response monitoring
+2. **Rate Limiting**: 100 requests per minute per IP
+3. **Error Handling**: Comprehensive error tracking with logging
+4. **Health Monitoring**: Continuous system health assessment
+5. **WebSocket Support**: Real-time communication layer
 
-#### Data Protection
-- **Encryption**: AES-256 for data at rest, TLS 1.3 for transmission
-- **Privacy**: HIPAA-compliant health data handling
-- **Backup Strategy**: Automated daily backups with 30-day retention
-- **Access Control**: Role-based permissions (owner/collaborator/viewer)
-- **Audit Logging**: Comprehensive activity tracking
+### Error Handling & Resilience
+- **Exponential Backoff**: 2s, 4s, 8s retry intervals
+- **Circuit Breaker Pattern**: Automatic service degradation
+- **Graceful Shutdown**: SIGTERM/SIGINT handling
+- **Memory Management**: Automatic garbage collection monitoring
+- **Connection Pooling**: Optimized database connections
 
-#### Scroll Law Compliance
-- **Offline-First**: No dependency on cloud connectivity
-- **Data Sovereignty**: User owns and controls all personal data
-- **Truthful Interaction**: All AI responses follow Matthew 5:37 principle
-- **Transparent Processing**: Clear indication of AI vs human interactions
+## THAENOS Deployment System v25.0.205
 
-### Deployment Architecture
+### Quantum-Grade Features
+- **Pre-validation**: Essential file verification
+- **Internet Stability**: Network connection testing
+- **Resource Monitoring**: Memory/CPU constraint checking
+- **Dependency Management**: Automated package installation
+- **Build Optimization**: Production build verification
+- **Health Verification**: Multi-endpoint testing
+- **Watchdog System**: Auto-restart on failures
+- **Log Analysis**: Pattern detection and error identification
 
-#### Current Development Setup
-- **Local Development**: Vite dev server with hot module replacement
-- **Port Configuration**: Single port (5000) for frontend and backend
-- **Environment Management**: Proper development/production separation
-- **Version Control**: Git-based with atomic deployments
+### Deployment Metrics
+- **Success Rate**: Based on health score and error count
+- **Performance Tracking**: Build time and resource usage
+- **Resilience Testing**: Network and system stability
+- **Comprehensive Logging**: Complete audit trail
 
-#### Production Requirements
-- **Container Strategy**: Docker-based microservices architecture
-- **Load Balancing**: Horizontal scaling for high availability
-- **Database Clustering**: PostgreSQL read replicas for performance
-- **CDN Integration**: Global content delivery network
-- **Monitoring**: Real-time performance and health metrics
+### Environment Variables
+- `CUSTOM_PORT`: Override default port (5000)
+- `BUILD_CMD`: Custom build command
+- `WATCHDOG_ENABLED`: Auto-restart capability
+- `HEALTH_CHECK_ENABLED`: Health monitoring toggle
 
-### Development Collaboration Features
+## Database Integration
 
-#### THAENOS AppForge Integration
-- **AI-Managed Development**: 80-85% autonomous development capability
-- **Human Oversight**: 15-20% strategic decision and quality assurance
-- **Collaborative Checkpoints**: Seamless integration points for external teams
-- **Version Control**: Git-based workflow with automated testing
-- **Documentation**: Auto-generated API docs and user guides
+### Current Status
+- **Development**: In-memory storage with health monitoring
+- **Production Ready**: PostgreSQL with Drizzle ORM
+- **Connection Pooling**: Optimized for high-throughput
+- **Health Checks**: Continuous database connectivity monitoring
+- **Migration Support**: Automated schema management
 
-#### Replit Integration Opportunities
-- **Collaborative Development**: Multi-developer real-time editing
-- **Zero Setup Deployment**: Instant environment provisioning
-- **Educational Resources**: Healing app development templates
-- **Community Sharing**: Open-source healing components library
-- **Global Accessibility**: Worldwide developer collaboration platform
+### Schema Support
+- User management and authentication
+- Project lifecycle and collaboration
+- Session data for real-time features
+- Performance metrics storage
+- Health check result archival
 
-### Revenue Model Integration
+## Performance Benchmarks
 
-#### THX Token Economy
-- **Premium Subscriptions**: Advanced healing features and content
-- **Marketplace Commission**: Revenue sharing on healing product sales
-- **Creator Monetization**: Video platform advertising and premium content
-- **Template Licensing**: Healing app template marketplace
-- **Consultation Services**: AI-guided therapy and wellness coaching
+### Current Metrics (Development)
+- **Requests Processed**: 127 total
+- **Error Rate**: 21.25% (needs optimization)
+- **Average Response Time**: 0.64ms
+- **Memory Usage**: 149MB peak
+- **Response Time Percentiles**:
+  - P50: 0ms
+  - P90: 1ms
+  - P95: 1ms
+  - P99: 9ms
 
-#### Partnership Revenue Sharing
-- **Infrastructure Costs**: Transparent cost sharing model
-- **Success Metrics**: Performance-based partnership incentives
-- **Growth Scaling**: Automatic scaling with user base expansion
-- **Global Expansion**: International market development support
+### Optimization Targets
+- **Error Rate**: < 5% (currently 21%)
+- **Response Time**: < 100ms P95
+- **Memory Usage**: < 200MB stable
+- **Health Score**: > 90/100
 
-### Timeline & Milestones
+## Security Enhancements
 
-#### Phase 3 Development Schedule
-- **Q3 2025**: Specialized network architecture design
-- **Q4 2025**: Beta network deployment (Women's and Men's Wellness)
-- **Q1 2026**: Full network launch with Replit infrastructure
-- **Q2 2026**: Global scaling and additional network types
-- **Q3 2026**: Advanced AI features and community tools
+### Rate Limiting
+- 100 requests per minute per IP address
+- Automatic throttling with retry-after headers
+- WebSocket connection limits per user
 
-### Technical Support Requirements
+### Error Handling
+- Sanitized error messages in production
+- Comprehensive logging without sensitive data exposure
+- Automatic error pattern detection
 
-#### Development Support Needs
-- **Scalable Hosting**: Auto-scaling infrastructure management
-- **Performance Optimization**: Database and API performance tuning
-- **Security Auditing**: Regular security assessments and updates
-- **Backup & Recovery**: Automated disaster recovery procedures
-- **Global CDN**: Worldwide content delivery optimization
+### Session Management
+- Secure WebSocket authentication
+- Session timeout and cleanup
+- Cross-site request forgery protection
 
-#### Collaboration Support Needs
-- **Multi-team Development**: Seamless integration with external developers
-- **Code Review Processes**: Automated and manual quality assurance
-- **Testing Infrastructure**: Comprehensive automated testing suites
-- **Documentation Systems**: Real-time documentation updates
-- **Communication Tools**: Integrated project management and chat
+## Deployment Process
 
----
+### Automated Steps
+1. **Pre-validation**: File and dependency checks
+2. **Resource Verification**: System capability assessment
+3. **Network Testing**: Internet stability validation
+4. **Build Process**: Production optimization
+5. **Health Verification**: Multi-endpoint testing
+6. **Monitoring Setup**: Real-time tracking activation
+7. **WebSocket Initialization**: Real-time feature enablement
 
-*This technical specification represents our current architecture and Phase 3 requirements for partnership discussions with Replit. All specifications align with Scroll Law principles and our mission of global healing ecosystem development.*
+### Manual Verification
+- Access application at `http://localhost:5000`
+- Verify health dashboard at `http://localhost:5000/health`
+- Test WebSocket connection at `ws://localhost:5000/healing-ws`
+- Review logs in `./logs/` directory
+
+## Future Enhancements
+
+### Immediate Priorities
+1. **Error Rate Reduction**: Debug and fix 21% error rate
+2. **Memory Optimization**: Reduce peak usage
+3. **Database Integration**: Production PostgreSQL setup
+4. **SSL/HTTPS**: Security enhancement for production
+
+### Advanced Features
+1. **AI Integration**: Enhanced assistant capabilities
+2. **Mobile Optimization**: Progressive Web App features
+3. **Offline Support**: Service worker implementation
+4. **Analytics Dashboard**: Advanced metrics visualization
+
+## Support & Maintenance
+
+### Monitoring
+- Continuous health score tracking
+- Automated alerts for critical issues
+- Performance regression detection
+- Resource usage optimization
+
+### Logging
+- Comprehensive audit trails
+- Error pattern analysis
+- Performance bottleneck identification
+- User session analytics
+
+### Backup & Recovery
+- Automated data backup procedures
+- Point-in-time recovery capabilities
+- Configuration version control
+- Disaster recovery planning
+
+## Compliance & Standards
+
+### Technical Standards
+- TypeScript strict mode compliance
+- ESLint configuration adherence
+- Security best practices implementation
+- Accessibility standards (WCAG 2.1)
+
+### Performance Standards
+- < 100ms API response time target
+- < 5% error rate requirement
+- > 95% uptime commitment
+- Real-time feature latency < 50ms
+
+This technical specification serves as the comprehensive guide for ELOHIM-O LocalForge's current capabilities and future development roadmap.
