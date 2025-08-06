@@ -155,7 +155,7 @@ export class MemStorage implements IStorage {
     const healingCategory: Category = {
       id: randomUUID(),
       name: "Healing & Wellness",
-      description: "Products for physical and mental wellness",
+      description: description ?? null,
       parentId: null,
       icon: "Heart",
       image: null,
@@ -169,7 +169,7 @@ export class MemStorage implements IStorage {
     const meditationVideoCategory: VideoCategory = {
       id: randomUUID(),
       name: "Guided Meditation",
-      description: "Meditation and mindfulness videos",
+      description: description ?? null,
       icon: "Brain",
       color: "#8B5CF6",
       isActive: true,
@@ -388,7 +388,7 @@ export class MemStorage implements IStorage {
     const category: Category = {
       ...categoryData,
       id,
-      description: categoryData.description || null,
+      description: description ?? null,
       parentId: categoryData.parentId || null,
       icon: categoryData.icon || null,
       image: categoryData.image || null,
@@ -431,7 +431,7 @@ export class MemStorage implements IStorage {
     const product: Product = {
       ...productData,
       id,
-      shortDescription: productData.shortDescription || null,
+      shortdescription: description ?? null,
       compareAtPrice: productData.compareAtPrice || null,
       sku: productData.sku || null,
       images: productData.images || null,
@@ -566,7 +566,7 @@ export class MemStorage implements IStorage {
     const creator: Creator = {
       ...creatorData,
       id,
-      description: creatorData.description || null,
+      description: description ?? null,
       avatar: creatorData.avatar || null,
       banner: creatorData.banner || null,
       isVerified: false,
@@ -613,7 +613,7 @@ export class MemStorage implements IStorage {
     const category: VideoCategory = {
       ...categoryData,
       id,
-      description: categoryData.description || null,
+      description: description ?? null,
       icon: categoryData.icon || null,
       color: categoryData.color || null,
       isActive: true,
@@ -646,7 +646,7 @@ export class MemStorage implements IStorage {
     const video: Video = {
       ...videoData,
       id,
-      description: videoData.description || null,
+      description: description ?? null,
       tags: videoData.tags || null,
       isPublic: videoData.isPublic ?? true,
       isPremium: videoData.isPremium || false,
@@ -755,5 +755,6 @@ export class MemStorage implements IStorage {
 }
 
 export const storage = new MemStorage();
+
 
 

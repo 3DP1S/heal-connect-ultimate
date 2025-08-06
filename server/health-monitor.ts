@@ -83,7 +83,7 @@ export class HealthMonitor extends EventEmitter {
   public async runHealthChecks(): Promise<Map<string, HealthCheck>> {
     const results = new Map<string, HealthCheck>();
 
-    for (const [name] of Array.from(this.checks.keys())) {
+    for (const name of [...this.checks.keys()]) {
       const startTime = Date.now();
       try {
         const checkFn = this.getCheckFunction(name);

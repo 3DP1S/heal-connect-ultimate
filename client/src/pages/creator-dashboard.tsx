@@ -1,3 +1,4 @@
+import { useQuery, useState } from 'react'; import { Card, CardHeader, CardTitle, CardDescription, CardContent, Tabs, TabsList, TabsTrigger, TabsContent, Badge } from '@/components/ui';
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -222,7 +223,7 @@ function VideoForm({ video, categories, onSubmit, onCancel }: {
     e.preventDefault();
     onSubmit({
       ...formData,
-      tags: formData.tags ? JSON.stringify(formData.tags.split(",").map(tag => tag.trim())) : null,
+      tags: formData.tags ? JSON.stringify(formData.tags.split(",").map((tag: string) => tag.trim())) : null,
       premiumPrice: formData.premiumPrice ? parseFloat(formData.premiumPrice) : null
     });
   };

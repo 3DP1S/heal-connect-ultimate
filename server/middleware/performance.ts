@@ -34,7 +34,7 @@ class PerformanceTracker {
 
       // Override res.end to capture response time
       const originalEnd = res.end;
-      res.end = function(this: Response, chunk?: any, encoding?: BufferEncoding, cb?: () => void) {
+      res.end = function(this: Response, chunk?: any, encoding?: string | undefined, cb?: () => void) {
         const responseTime = Date.now() - startTime;
         
         // Record metrics
@@ -45,7 +45,7 @@ class PerformanceTracker {
           healthMonitor.recordError();
         }
 
-        return originalEnd.call(this, chunk, encoding, cb);
+        return originalEnd.call(this, chunk, encoding ?? "utf8", cb);
       };
 
       next();
