@@ -1,4 +1,5 @@
 import { useQuery, useState } from 'react'; import { Card, CardHeader, CardTitle, CardDescription, CardContent, Tabs, TabsList, TabsTrigger, TabsContent, Badge } from '@/components/ui';
+import { useQuery, useState } from 'react'; import { Card, CardHeader, CardTitle, CardDescription, CardContent, Tabs, TabsList, TabsTrigger, TabsContent, Badge } from '@/components/ui';
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -684,3 +685,4 @@ export default function CreatorDashboardPage() {
     </div>
   );
 }
+
