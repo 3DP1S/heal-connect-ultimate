@@ -380,7 +380,7 @@ export class MemStorage implements IStorage {
   async getCategories(): Promise<Category[]> {
     return Array.from(this.categories.values())
       .filter(category => category.isActive)
-      .sort((a, b) => a.sortOrder - b.sortOrder);
+      .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
   }
 
   async createCategory(categoryData: InsertCategory): Promise<Category> {
@@ -597,7 +597,7 @@ export class MemStorage implements IStorage {
   async getAllCreators(limit = 50): Promise<Creator[]> {
     return Array.from(this.creators.values())
       .filter(creator => creator.isActive)
-      .sort((a, b) => b.subscriberCount - a.subscriberCount)
+      .sort((a, b) => (b.subscriberCount || 0) - (a.subscriberCount || 0))
       .slice(0, limit);
   }
 
@@ -605,7 +605,7 @@ export class MemStorage implements IStorage {
   async getVideoCategories(): Promise<VideoCategory[]> {
     return Array.from(this.videoCategories.values())
       .filter(category => category.isActive)
-      .sort((a, b) => a.sortOrder - b.sortOrder);
+      .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
   }
 
   async createVideoCategory(categoryData: InsertVideoCategory): Promise<VideoCategory> {
@@ -696,7 +696,7 @@ export class MemStorage implements IStorage {
   async incrementVideoViews(id: string): Promise<Video | undefined> {
     const video = this.videos.get(id);
     if (video) {
-      video.viewCount++;
+      video.viewCount = (video.viewCount || 0) + 1;
       this.videos.set(id, video);
     }
     return video;
@@ -755,3 +755,5 @@ export class MemStorage implements IStorage {
 }
 
 export const storage = new MemStorage();
+
+
