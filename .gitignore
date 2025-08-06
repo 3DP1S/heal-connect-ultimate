@@ -1,7 +1,6 @@
-# Exclude node_modules and backups to prevent CRLF warnings and repo bloat
+# THAENOS Excludes
 node_modules/
 backups/
 logs/
 .deployed
-venv/
-.env
+
